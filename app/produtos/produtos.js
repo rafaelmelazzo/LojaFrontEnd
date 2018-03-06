@@ -44,7 +44,7 @@ myApp.controller('ProdutosController', function ($scope, $http, $location, $rout
         $scope.produtos = response.data;
       },
       function (response) {
-        alert('Desculpe... não foi possível completar sua solicitação.');
+        myApp.messageError('Desculpe... não foi possível listar os produtos.');
       }
     );
   }
@@ -60,10 +60,10 @@ myApp.controller('ProdutosController', function ($scope, $http, $location, $rout
 
     $http(req).then(
       function (response) {
-        $scope.produto = response.data;
+        $scope.produto = response.data[0];
       },
       function (response) {
-        alert('Desculpe... não foi possível completar sua solicitação.');
+        myApp.messageError('Desculpe... não foi possível recuperar o produto solicitado.');
       }
     );
   }
@@ -88,15 +88,15 @@ myApp.controller('ProdutosController', function ($scope, $http, $location, $rout
 
     $http(req).then(
       function (response) {
-        if ($scope.produto.Id) {
-          myApp.messageSuccess("Produto Id " + response.data.Id + " alterado com sucesso!");
+        if ($scope.produto.id) {
+          myApp.messageSuccess("Produto '" + response.data.nome + "' alterado com sucesso!");
         } else {
-          myApp.messageSuccess("Produto Id " + response.data.Id + " cadastrado com sucesso!");
+          myApp.messageSuccess("Produto '" + response.data.nome + "' cadastrado com sucesso!");
         }
         $location.path("/produtos");
       },
       function (response) {
-        myApp.messageError('Desculpe... não foi possível completar sua solicitação.');
+        myApp.messageError('Desculpe... não foi possível salvar suas alterações.');
       }
     );
   }
@@ -119,7 +119,7 @@ myApp.controller('ProdutosController', function ($scope, $http, $location, $rout
           $scope.getProdutos();
         },
         function (response) {
-          myApp.messageError('Desculpe... não foi possível completar sua solicitação.');
+          myApp.messageError('Desculpe... não foi possível excluir o produto solicitado.');
         }
       );
     }
