@@ -7,24 +7,47 @@
     <h3>{{title}}</h3>
     <br>
 
-    <form ng-controller="ProdutosController" ng-submit="salva()">
+    <form ng-controller="ProdutosController" name="produtoForm" ng-model="produtoForm" id="produtoForm" ng-submit="salva(produtoForm.$valid)" novalidate>
       <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" ng-model="produto.nome" id="nome">
+        <input type="text" class="form-control" ng-model="produto.nome" required>
+        <p ng-show="produto.nome.$invalid" class="help-block">You name is required.</p>
       </div>
 
       <div class="form-group">
         <label for="categoria">Categoria</label>
-        <input type="text" class="form-control" ng-model="produto.categoria" id="categoria">
+        <input type="text" class="form-control" ng-model="produto.categoria" id="categoria" required ng-required="true">
+        <span ng-show="produtoForm.categoria.$invalid">The name is required.</span>
       </div>
 
       <div class="form-group">
         <label for="preco">Preço</label>
-        <input type="text" class="form-control" ng-model="produto.preco" id="preco">
+        <input type="text" class="form-control" ng-model="produto.preco" id="preco" required ng-required="true">
+        <span ng-show="produtoForm.preco.$invalid">The name is required.</span>
       </div>
 
-      <button type="submit" class="btn btn-success">Salvar</button>
+      <button type="submit" class="btn btn-success" ng-disabled="produtoForm.$invalid">Salvar</button>
 
     </form>
   </div>
 </div>
+
+<script>
+  var app = angular.module('myApp', []);
+  app.directive('myDirective', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attr, mCtrl) {
+        function myValidation(value) {
+          if (value.indexOf("e") > -1) {
+            mCtrl.$setValidity('charE', true);
+          } else {
+            mCtrl.$setValidity('charE', false);
+          }
+          return value;
+        }
+        mCtrl.$parsers.push(myValidation);
+      }
+    };
+  });
+  </script>

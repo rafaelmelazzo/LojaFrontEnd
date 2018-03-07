@@ -71,7 +71,7 @@ myApp.controller('ProdutosController', function ($scope, $http, $location, $rout
   /**
    * Salva o formulário
    */
-  $scope.salva = function () {
+  $scope.salva = function (valid) {
 
     var method = 'POST';
     var url = baseUrl + '/produtos';
